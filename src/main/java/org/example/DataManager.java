@@ -17,10 +17,10 @@ public class DataManager {
     static String password = "123456";
     static String virtualPath = "/upload/";
     static String localFilePath = "src/main/resources/data.txt";
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
     //Metod för att skicka upp en fil till FTP-servern
-    public static void uploadToFTP() {
+    public static void uploadToFTP(String fileName) {
 
         //Skapa ett FTP-klient objekt
         FTPClient ftpClient = new FTPClient();
@@ -35,14 +35,13 @@ public class DataManager {
 
             //Skicka upp .txt fil till FTP servern
             FileInputStream fis = new FileInputStream(localFilePath);
-            ftpClient.storeFile("FTPdata.txt", fis);
+            fileName = scanner.nextLine();
+            ftpClient.storeFile(fileName, fis);
 
             //Stäng anslutningen
             fis.close();
             ftpClient.logout();
             ftpClient.disconnect();
-
-            System.out.println("File uploaded");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -72,8 +71,6 @@ public class DataManager {
             fos.close();
             ftpClient.logout();
             ftpClient.disconnect();
-
-            System.out.println("Anslutning stängd.");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
